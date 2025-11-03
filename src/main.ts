@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
@@ -17,8 +18,27 @@ async function bootstrap(): Promise<void> {
   // Global prefix
   app.setGlobalPrefix('api');
 
+  // Swagger configuration
+  const config = new DocumentBuilder()
+    .setTitle('Grimm App Notification API')
+    .setDescription('API for managing push notifications in Grimm App')
+    .setVersion('1.0')
+    .addTag('notifications', 'Operations related to notifications')
+    .addTag('devices', 'Operations related to device registration')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document, {
+    customSiteTitle: 'Grimm App Notification API',
+    customCss: `
+      .swagger-ui .topbar { display: none; }
+      .swagger-ui .information-container { background: #f5f5f5; padding: 20px; }
+    `,
+  });
+
   await app.listen(3000);
-  console.log('🚀 Notification API is running on: http://localhost:3000/api');
+  console.log('Notification API is running on: http://localhost:3000/api');
+  console.log('API Documentation available at: http://localhost:3000/api/docs');
 }
 
 bootstrap().catch((error) => {
