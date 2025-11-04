@@ -6,6 +6,13 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+  });
+
   // Global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
@@ -36,9 +43,9 @@ async function bootstrap(): Promise<void> {
     `,
   });
 
-  await app.listen(3000);
-  console.log('Notification API is running on: http://localhost:3000/api');
-  console.log('API Documentation available at: http://localhost:3000/api/docs');
+  await app.listen(5000);
+  console.log('Notification API is running on: http://localhost:5000/api');
+  console.log('API Documentation available at: http://localhost:5000/api/docs');
 }
 
 bootstrap().catch((error) => {
