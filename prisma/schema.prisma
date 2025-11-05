@@ -1,3 +1,4 @@
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,12 +9,17 @@ datasource db {
 }
 
 model Notification {
-  id        String   @id @default(uuid())
-  title     String
-  body      String
-  status    NotificationStatus @default(DRAFT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String             @id @default(uuid())
+  title              String
+  body               String
+  data               Json?              
+  ttl                Int?               
+  iosMessageSubtitle String?    
+  badgeCount         Int?               
+  androidChannelId   String?
+  status             NotificationStatus @default(DRAFT)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 
   @@map("notifications")
 }

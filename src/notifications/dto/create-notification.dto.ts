@@ -1,5 +1,11 @@
-import { IsString, IsNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsNumber,
+  IsObject,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateNotificationDto {
   @ApiProperty({
@@ -19,4 +25,46 @@ export class CreateNotificationDto {
   @IsString()
   @IsNotEmpty()
   body: string;
+
+  @ApiPropertyOptional({
+    description: 'Additional data payload for the notification',
+    example: { featureId: '123', screen: 'Home' },
+  })
+  @IsOptional()
+  @IsObject()
+  data?: Record<string, any>;
+
+  @ApiPropertyOptional({
+    description: 'Time to live in seconds',
+    example: 3600,
+  })
+  @IsOptional()
+  @IsNumber()
+  ttl?: number;
+
+  @ApiPropertyOptional({
+    description: 'Subtitle for iOS notifications',
+    example: 'Important Update',
+    maxLength: 255,
+  })
+  @IsOptional()
+  @IsString()
+  iosMessageSubtitle?: string;
+
+  @ApiPropertyOptional({
+    description: 'Badge count for iOS notifications',
+    example: 1,
+  })
+  @IsOptional()
+  @IsNumber()
+  badgeCount?: number;
+
+  @ApiPropertyOptional({
+    description: 'Android channel ID for notification grouping',
+    example: 'default_channel',
+    maxLength: 255,
+  })
+  @IsOptional()
+  @IsString()
+  androidChannelId?: string;
 }

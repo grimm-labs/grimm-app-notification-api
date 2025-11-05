@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { NotificationStatus } from '@prisma/client';
 
 export class NotificationEntity {
@@ -19,6 +19,36 @@ export class NotificationEntity {
     example: 'We have released a new feature that you might find useful.',
   })
   body: string;
+
+  @ApiPropertyOptional({
+    description: 'Additional data payload',
+    example: { featureId: '123', screen: 'Home' },
+  })
+  data?: Record<string, any> | null;
+
+  @ApiPropertyOptional({
+    description: 'Time to live in seconds',
+    example: 3600,
+  })
+  ttl?: number | null;
+
+  @ApiPropertyOptional({
+    description: 'Subtitle for iOS notifications',
+    example: 'Important Update',
+  })
+  iosMessageSubtitle?: string | null;
+
+  @ApiPropertyOptional({
+    description: 'Badge count for iOS notifications',
+    example: 1,
+  })
+  badgeCount?: number | null;
+
+  @ApiPropertyOptional({
+    description: 'Android channel ID',
+    example: 'default_channel',
+  })
+  androidChannelId?: string | null;
 
   @ApiProperty({
     description: 'Notification status',
