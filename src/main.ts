@@ -7,7 +7,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:3001', 'http://localhost:3000'],
+    origin: ['http://localhost:3001', 'http://localhost:3000', '*'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
@@ -43,7 +43,7 @@ async function bootstrap(): Promise<void> {
     `,
   });
 
-  await app.listen(5000);
+  await app.listen(5000, '0.0.0.0');
   console.log('Notification API is running on: http://localhost:5000/api');
   console.log('API Documentation available at: http://localhost:5000/api/docs');
 }
